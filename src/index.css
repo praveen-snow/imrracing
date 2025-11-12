@@ -1,0 +1,354 @@
+:root {
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #0f172a;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+h1, h3 {
+  margin: 0;
+}
+
+button {
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1e40af;
+  color: white;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  background-color: #1e3a8a;
+  border-color: #60a5fa;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+input {
+  font-family: inherit;
+  border-radius: 4px;
+  border: 1px solid #374151;
+  padding: 0.5em 0.75em;
+  font-size: 0.95em;
+  background-color: #1f2937;
+  color: rgba(255, 255, 255, 0.87);
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%), 
+              url('https://enduro21.com/images/2024/november-2024/baja-1000-results/24-slr-baja-1000_26.jpg') center/cover fixed;
+  padding: 20px;
+  gap: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dashboard-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: opacity 0.3s ease;
+}
+
+.dashboard-view.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgb(247 247 247);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.imr-logo {
+  height: 60px;
+  width: auto;
+  transition: all 0.3s ease;
+}
+
+.imr-logo:hover {
+  transform: scale(1.05);
+}
+
+.app-header h1 {
+  font-size: 2.5em;
+  color: #000;
+  margin: 0;
+  font-style: italic;
+}
+
+.refresh-btn {
+  padding: 0.75em 1.5em;
+  font-size: 1.05em;
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
+}
+
+.refresh-btn:hover {
+  background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+  box-shadow: 0 6px 16px rgba(30, 64, 175, 0.6);
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  padding: 15px;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-input {
+  width: 100%;
+  padding: 0.6em 0.75em;
+  font-size: 0.9em;
+}
+
+.title-input {
+  font-weight: 500;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.iframe-wrapper {
+  display: flex;
+  flex-direction: column;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.iframe-wrapper:hover {
+  border-color: #60a5fa;
+  box-shadow: 0 6px 20px rgba(96, 165, 250, 0.2);
+}
+
+.iframe-header {
+  padding: 12px 16px;
+  background: linear-gradient(90deg, #d1d5db 0%, #9ca3af 100%);
+  border-bottom: 1px solid #334155;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.iframe-header h3 {
+  font-size: 1.1em;
+  color: #1f2937;
+  margin: 0;
+}
+
+.expand-btn {
+  background: none;
+  border: none;
+  color: #1f2937;
+  font-size: 1.3em;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.expand-btn:hover {
+  background-color: rgba(31, 41, 55, 0.1);
+  transform: scale(1.2);
+}
+
+.expanded-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%), 
+              url('https://enduro21.com/images/2024/november-2024/baja-1000-results/24-slr-baja-1000_26.jpg') center/cover fixed;
+  overflow: hidden;
+  z-index: 999;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.expanded-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.8);
+  border-bottom: 1px solid #334155;
+  flex-shrink: 0;
+}
+
+.expanded-header h1 {
+  font-size: 2em;
+  color: #60a5fa;
+  margin: 0;
+}
+
+.close-btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #1e40af;
+  color: white;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: #1e3a8a;
+  border-color: #60a5fa;
+}
+
+.expanded-iframe {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #0f172a;
+}
+
+.iframe {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #0f172a;
+}
+
+.iframe-placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #94a3b8;
+  text-align: center;
+  padding: 20px;
+}
+
+.iframe-placeholder p {
+  margin: 0;
+  font-size: 1.1em;
+  color: #cbd5e1;
+}
+
+.iframe-placeholder small {
+  margin-top: 8px;
+  opacity: 0.7;
+}
+
+@media (max-width: 1400px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .app-header h1 {
+    font-size: 1.8em;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+    max-height: none;
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
