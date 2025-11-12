@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './App.css'
 
 interface IFrameWindow {
@@ -16,8 +16,10 @@ function App() {
   ])
 
   const [expandedWindowId, setExpandedWindowId] = useState<number | null>(null)
+  const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(false)
   const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([])
   const expandedIframeRef = useRef<HTMLIFrameElement | null>(null)
+  const autoRefreshIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const handleRefreshAll = () => {
     iframeRefs.current.forEach((iframe) => {
@@ -28,6 +30,32 @@ function App() {
     })
   }
 
+  // Setup auto-refresh interval
+  useEffect(() => {
+    if (autoRefreshEnabled) {
+      // Initial refresh
+      handleRefreshAll()
+      
+      // Set interval for 5 minutes (300000ms)
+      autoRefreshIntervalRef.current = setInterval(() => {
+        handleRefreshAll()
+      }, 300000)
+    } else {
+      // Clear interval when disabled
+      if (autoRefreshIntervalRef.current) {
+        clearInterval(autoRefreshIntervalRef.current)
+        autoRefreshIntervalRef.current = null
+      }
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (autoRefreshIntervalRef.current) {
+        clearInterval(autoRefreshIntervalRef.current)
+      }
+    }
+  }, [autoRefreshEnabled])
+
   return (
     <div className="app-container">
       {/* Dashboard view */}
@@ -37,9 +65,25 @@ function App() {
             <img src="/imr-logo.png" alt="IMR Racing" className="imr-logo" />
             <h1>IMR BAJA 360</h1>
           </div>
-          <button className="refresh-btn" onClick={handleRefreshAll}>
-            🔄 Refresh All Windows
-          </button>
+          <div className="header-controls">
+            <div className="toggle-wrapper">
+              <label className="toggle-label">
+                <input 
+                  type="checkbox" 
+                  checked={autoRefreshEnabled}
+                  onChange={(e) => setAutoRefreshEnabled(e.target.checked)}
+                  className="toggle-input"
+                />
+                <span className="toggle-slider"></span>
+                <span className="toggle-text">
+                  {autoRefreshEnabled ? '🔄 Auto Refresh ON' : 'Auto Refresh OFF'}
+                </span>
+              </label>
+            </div>
+            <button className="refresh-btn" onClick={handleRefreshAll}>
+              🔄 Refresh All Windows
+            </button>
+          </div>
         </header>
 
         <div className="grid-container">
