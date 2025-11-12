@@ -31,7 +31,6 @@ export interface GarminUserInfo {
 
 class GarminAPIService {
   private accessToken: string | null = null
-  private userId: string | null = null
 
   /**
    * Initialize OAuth flow
@@ -81,7 +80,9 @@ class GarminAPIService {
 
       const data = await response.json()
       this.accessToken = data.access_token
-      localStorage.setItem('garmin_access_token', this.accessToken)
+      if (this.accessToken) {
+        localStorage.setItem('garmin_access_token', this.accessToken)
+      }
       return true
     } catch (error) {
       console.error('Error exchanging code for token:', error)
@@ -218,7 +219,6 @@ class GarminAPIService {
    */
   logout(): void {
     this.accessToken = null
-    this.userId = null
     localStorage.removeItem('garmin_access_token')
   }
 

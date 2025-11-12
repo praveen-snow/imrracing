@@ -3,10 +3,14 @@
  * Store your Garmin Developer credentials here
  */
 
+const getEnvVar = (key: string, defaultValue: string): string => {
+  return import.meta.env[key] || defaultValue
+}
+
 export const GARMIN_CONFIG = {
   // Get these from https://developer.garmin.com/
-  CLIENT_ID: process.env.REACT_APP_GARMIN_CLIENT_ID || 'YOUR_CLIENT_ID_HERE',
-  CLIENT_SECRET: process.env.REACT_APP_GARMIN_CLIENT_SECRET || 'YOUR_CLIENT_SECRET_HERE',
+  CLIENT_ID: getEnvVar('VITE_GARMIN_CLIENT_ID', 'YOUR_CLIENT_ID_HERE'),
+  CLIENT_SECRET: getEnvVar('VITE_GARMIN_CLIENT_SECRET', 'YOUR_CLIENT_SECRET_HERE'),
   
   // OAuth endpoints
   AUTH_URL: 'https://auth.garmin.com/oauth-login',

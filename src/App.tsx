@@ -8,7 +8,7 @@ interface IFrameWindow {
 }
 
 function App() {
-  const [windows, setWindows] = useState<IFrameWindow[]>([
+  const [windows] = useState<IFrameWindow[]>([
     { id: 1, title: 'Baja Score', url: 'https://score-raceinfo.com/58th-baja-1000-nov-10-16-2025/' },
     { id: 2, title: 'DK', url: 'https://share.garmin.com/share/summitandthrottle' },
     { id: 3, title: 'Ashish', url: 'https://share.garmin.com/Z45AN' },
@@ -22,17 +22,10 @@ function App() {
   const handleRefreshAll = () => {
     iframeRefs.current.forEach((iframe) => {
       if (iframe) {
-        iframe.src = iframe.src
+        const src = iframe.src
+        iframe.src = src
       }
     })
-  }
-
-  const handleUrlChange = (id: number, newUrl: string) => {
-    setWindows(windows.map(w => w.id === id ? { ...w, url: newUrl } : w))
-  }
-
-  const handleTitleChange = (id: number, newTitle: string) => {
-    setWindows(windows.map(w => w.id === id ? { ...w, title: newTitle } : w))
   }
 
   return (
@@ -64,7 +57,7 @@ function App() {
               </div>
               {window.url ? (
                 <iframe
-                  ref={(el) => (iframeRefs.current[idx] = el)}
+                  ref={(el) => { if (el) iframeRefs.current[idx] = el }}
                   src={window.url}
                   title={window.title}
                   className="iframe"

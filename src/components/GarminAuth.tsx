@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { garminAPI, GarminUserLocation, GarminUserInfo } from '../services/garminAPI'
+import type { GarminUserLocation, GarminUserInfo } from '../services/garminAPI'
+import { garminAPI } from '../services/garminAPI'
 
 interface GarminAuthProps {
   onLocationUpdate?: (location: GarminUserLocation) => void
