@@ -62,7 +62,7 @@ function App() {
       <div className={`dashboard-view ${expandedWindowId ? 'hidden' : ''}`}>
         <header className="app-header">
           <div className="header-left">
-            <img src="/imr-logo.png" alt="IMR Racing" className="imr-logo" />
+            <img src={`${import.meta.env.BASE_URL}imr-logo.png`} alt="IMR Racing" className="imr-logo" />
             <h1>IMR BAJA 360</h1>
           </div>
           <div className="header-controls">
