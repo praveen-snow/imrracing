@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability */
 import { useState, useEffect } from 'react'
 import type { GarminUserLocation, GarminUserInfo } from '../services/garminAPI'
 import { garminAPI } from '../services/garminAPI'

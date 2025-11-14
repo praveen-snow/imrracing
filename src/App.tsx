@@ -9,7 +9,7 @@ interface IFrameWindow {
 
 function App() {
   const [windows] = useState<IFrameWindow[]>([
-    { id: 1, title: 'Baja Score', url: 'https://score-raceinfo.com/58th-baja-1000-nov-10-16-2025/' },
+    { id: 1, title: 'Baja Score', url: 'https://score-international.com/liveTracking.php' },
     { id: 2, title: 'DK', url: 'https://share.garmin.com/share/summitandthrottle' },
     { id: 3, title: 'Ashish', url: 'https://share.garmin.com/Z45AN' },
     { id: 4, title: 'Rajiv', url: 'https://share.garmin.com/NXN7O' },
