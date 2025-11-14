@@ -14,6 +14,7 @@ function App() {
     { id: 3, title: 'DK', url: 'https://share.garmin.com/share/summitandthrottle' },
     { id: 4, title: 'Ashish', url: 'https://share.garmin.com/Z45AN' },
     { id: 5, title: 'Rajiv', url: 'https://share.garmin.com/NXN7O' },
+    { id: 6, title: 'YouTube', url: 'https://www.youtube.com/embed/_1R28s0uBqM' },
   ])
 
   const [expandedWindowId, setExpandedWindowId] = useState<number | null>(null)
