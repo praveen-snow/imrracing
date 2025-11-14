@@ -35,18 +35,30 @@ function App() {
   // Click refresh button inside iframe (id 2 - 305x) every 1 minute
   const clickIframeRefreshButton = () => {
     const iframe = iframeRefs.current[1] // Index 1 = id 2
+    console.log('🔍 Attempting to click refreshMapButton...')
     if (iframe) {
+      console.log('✅ iframe found:', iframe.src)
       try {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document
         if (iframeDoc) {
+          console.log('✅ iframe document accessible')
           const refreshButton = iframeDoc.getElementById('refreshMapButton')
           if (refreshButton) {
+            console.log('✅ refreshMapButton found! Clicking now...')
             refreshButton.click()
+            console.log('✅ refreshMapButton clicked successfully!')
+          } else {
+            console.warn('❌ refreshMapButton NOT found in iframe')
+            console.log('Available elements:', iframeDoc.body.innerHTML.substring(0, 500))
           }
+        } else {
+          console.warn('❌ Cannot access iframe document (cross-origin?)')
         }
       } catch (error) {
-        console.error('Error clicking iframe button:', error)
+        console.error('❌ Error clicking iframe button:', error)
       }
+    } else {
+      console.warn('❌ iframe not found at index 1')
     }
   }
 
