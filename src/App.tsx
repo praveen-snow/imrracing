@@ -9,10 +9,11 @@ interface IFrameWindow {
 
 function App() {
   const [windows] = useState<IFrameWindow[]>([
-    { id: 1, title: 'Baja Score', url: 'https://score-international.com/liveTracking.php' },
-    { id: 2, title: 'DK', url: 'https://share.garmin.com/share/summitandthrottle' },
-    { id: 3, title: 'Ashish', url: 'https://share.garmin.com/Z45AN' },
-    { id: 4, title: 'Rajiv', url: 'https://share.garmin.com/NXN7O' },
+    { id: 1, title: 'Baja Score', url: 'https://trackleaders.com/baja1k25i.php?name=Gurpinder_Singh_Sarao' },
+    { id: 2, title: '305x', url: 'https://trackleaders.com/baja1k25i.php?name=Gurpinder_Singh_Sarao' },
+    { id: 3, title: 'DK', url: 'https://share.garmin.com/share/summitandthrottle' },
+    { id: 4, title: 'Ashish', url: 'https://share.garmin.com/Z45AN' },
+    { id: 5, title: 'Rajiv', url: 'https://share.garmin.com/NXN7O' },
   ])
 
   const [expandedWindowId, setExpandedWindowId] = useState<number | null>(null)
@@ -20,6 +21,7 @@ function App() {
   const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([])
   const expandedIframeRef = useRef<HTMLIFrameElement | null>(null)
   const autoRefreshIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const iframeRefreshIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const handleRefreshAll = () => {
     iframeRefs.current.forEach((iframe) => {
@@ -28,6 +30,24 @@ function App() {
         iframe.src = src
       }
     })
+  }
+
+  // Click refresh button inside iframe (id 2 - 305x) every 1 minute
+  const clickIframeRefreshButton = () => {
+    const iframe = iframeRefs.current[1] // Index 1 = id 2
+    if (iframe) {
+      try {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document
+        if (iframeDoc) {
+          const refreshButton = iframeDoc.getElementById('refreshMapButton')
+          if (refreshButton) {
+            refreshButton.click()
+          }
+        }
+      } catch (error) {
+        console.error('Error clicking iframe button:', error)
+      }
+    }
   }
 
   // Setup auto-refresh interval
@@ -55,6 +75,24 @@ function App() {
       }
     }
   }, [autoRefreshEnabled])
+
+  // Setup iframe refresh button click every 1 minute
+  useEffect(() => {
+    // Click immediately on mount
+    clickIframeRefreshButton()
+    
+    // Set interval to click every 1 minute (60000ms)
+    iframeRefreshIntervalRef.current = setInterval(() => {
+      clickIframeRefreshButton()
+    }, 60000)
+
+    // Cleanup on unmount
+    return () => {
+      if (iframeRefreshIntervalRef.current) {
+        clearInterval(iframeRefreshIntervalRef.current)
+      }
+    }
+  }, [])
 
   return (
     <div className="app-container">
