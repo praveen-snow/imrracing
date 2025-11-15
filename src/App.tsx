@@ -9,11 +9,11 @@ interface IFrameWindow {
 
 function App() {
   const [windows] = useState<IFrameWindow[]>([
-    { id: 1, title: 'Baja Score', url: 'https://trackleaders.com/baja1k25i.php?name=Gurpinder_Singh_Sarao' },
+    { id: 1, title: 'Baja Score', url: 'https://trackleaders.com/baja1k25' },
     { id: 2, title: '305x', url: 'https://trackleaders.com/baja1k25i.php?name=Gurpinder_Singh_Sarao' },
     { id: 3, title: 'DK', url: 'https://share.garmin.com/share/summitandthrottle' },
     { id: 4, title: 'Ashish', url: 'https://share.garmin.com/Z45AN' },
-    { id: 5, title: 'Rajiv', url: 'https://share.garmin.com/NXN7O' },
+    { id: 5, title: 'Rajiv - RaceBike', url: 'https://share.garmin.com/NXN7O' },
     { id: 6, title: 'YouTube', url: 'https://www.youtube.com/embed/_1R28s0uBqM' },
   ])
 
@@ -31,6 +31,17 @@ function App() {
         iframe.src = src
       }
     })
+  }
+
+  const handleRefreshExpandedWindow = () => {
+    if (expandedIframeRef.current) {
+      const src = expandedIframeRef.current.src
+      expandedIframeRef.current.src = src
+    }
+  }
+
+  const handleExpandWindow = (windowId: number) => {
+    setExpandedWindowId(windowId)
   }
 
   // Click refresh button inside iframe (id 2 - 305x) every 1 minute
@@ -113,7 +124,7 @@ function App() {
       <div className={`dashboard-view ${expandedWindowId ? 'hidden' : ''}`}>
         <header className="app-header">
           <div className="header-left">
-            <img src={`${import.meta.env.BASE_URL}imr-logo.png`} alt="IMR Racing" className="imr-logo" />
+            <img src="/imr-logo.png" alt="IMR Racing" className="imr-logo" />
             <h1>IMR BAJA 360</h1>
           </div>
           <div className="header-controls">
@@ -144,7 +155,7 @@ function App() {
                 <h3>{window.title}</h3>
                 <button 
                   className="expand-btn" 
-                  onClick={() => setExpandedWindowId(window.id)}
+                  onClick={() => handleExpandWindow(window.id)}
                   title="Expand to fullscreen"
                 >
                   ⛶
@@ -156,7 +167,6 @@ function App() {
                   src={window.url}
                   title={window.title}
                   className="iframe"
-                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                 />
               ) : (
                 <div className="iframe-placeholder">
@@ -174,16 +184,24 @@ function App() {
         <div className="expanded-view">
           <div className="expanded-header">
             <h1>{windows.find(w => w.id === expandedWindowId)?.title}</h1>
-            <button className="close-btn" onClick={() => setExpandedWindowId(null)}>
-              ✕ Close
-            </button>
+            <div className="expanded-controls">
+              <button 
+                className="refresh-btn"
+                onClick={handleRefreshExpandedWindow}
+                title="Refresh this window"
+              >
+                🔄 Refresh
+              </button>
+              <button className="close-btn" onClick={() => setExpandedWindowId(null)}>
+                ✕ Close
+              </button>
+            </div>
           </div>
           <iframe
             ref={expandedIframeRef}
             src={windows.find(w => w.id === expandedWindowId)?.url}
             title={windows.find(w => w.id === expandedWindowId)?.title}
             className="expanded-iframe"
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
           />
         </div>
       )}
